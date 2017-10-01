@@ -3,8 +3,7 @@ version: '3'
 services:
   mysql:
     image: mysql
-    restart: always
-    expose: [3306]
+    expose: ["3306"]
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: asm
@@ -14,8 +13,8 @@ services:
       - "3306:3306"
   web:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
-    expose: [8000]
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    expose: ["8000"]
     volumes:
       - .:/asm
     ports:
