@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql
+    restart: always
+    expose: [3306]
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: asm
+      MYSQL_USER: asm
+      MYSQL_PASSWORD: asm
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    expose: [8000]
+    volumes:
+      - .:/asm
+    ports:
+      - "8000:8000"
+    links:
+      - mysql:mysql
+    depends_on:
+      - mysql
